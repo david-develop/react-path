@@ -18,6 +18,14 @@ const list = [
     points: 5,
     objectID: 1,
   },
+  {
+    title: 'NodeJS',
+    url: 'https://nodejs.org/',
+    author: 'Ryan Dahl',
+    num_comments: 5,
+    points: 1,
+    objectID: 2,
+  },
 ];
 
 class App extends Component {
@@ -28,6 +36,14 @@ class App extends Component {
       list: list,
     };
 
+    this.onDismiss = this.onDismiss.bind(this);
+
+  }
+  
+  onDismiss(id) {
+    const isNotId = item => item.objectID !== id;
+    const updatedList = this.state.list.filter(isNotId);
+    this.setState({ list: updatedList });
   }
   
   render () {
@@ -37,12 +53,20 @@ class App extends Component {
           <div>
             { this.state.list.map(item =>
             <div key={item.objectID}>
-              <span>
+              <h2>
                 <a href={item.url}> {item.title} </a>
-              </span>
+              </h2>
               <span> Author: {item.author} </span>
               <span> Comments: {item.num_comments} </span>
               <span> Points: {item.points} </span>
+              <span>
+                <button
+                  onClick={() => this.onDismiss(item.objectID)}
+                  type="button"
+                >
+                  Dismiss
+                </button>
+              </span>
               <br /><br />
             </div>
             )}
