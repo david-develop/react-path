@@ -1,6 +1,23 @@
 import React, {Component} from 'react';
 import './App.css';
 
+class ExplainBindingsComponent extends Component {
+  onClickMe = () => {
+    console.log(this);
+  }
+
+  render() {
+    return (
+      <button
+        onClick={this.onClickMe}
+        type="button"
+      >
+        Click Me
+      </button>
+    );
+  }
+}
+
 const list = [
   {
     title: 'React',
@@ -70,6 +87,9 @@ class App extends Component {
               <br /><br />
             </div>
             )}
+          </div>
+          <div>
+            <ExplainBindingsComponent />
           </div>
         </header>
       </div>
