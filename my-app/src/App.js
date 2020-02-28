@@ -1,23 +1,7 @@
 import React, {Component} from 'react';
 import './App.css';
 
-class ExplainBindingsComponent extends Component {
-  onClickMe = () => {
-    console.log(this);
-  }
-
-  render() {
-    return (
-      <button
-        onClick={this.onClickMe}
-        type="button"
-      >
-        Click Me
-      </button>
-    );
-  }
-}
-
+// dummy data
 const list = [
   {
     title: 'React',
@@ -45,18 +29,27 @@ const list = [
   },
 ];
 
+// Search high order funtion to be used as filter parameter
+const isSearched = (searchTerm) => (item) =>
+  !searchTerm || item.title.toLowerCase().includes(searchTerm.toLowerCase());
+
 class App extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       list: list,
+      searchTerm: '',
     };
 
+    this.onSearchChange = this.onSearchChange.bind(this);
     this.onDismiss = this.onDismiss.bind(this);
-
   }
   
+  onSearchChange(event) {
+    this.setState({ searchTerm: event.target.value });
+  }
+
   onDismiss(id) {
     const isNotId = item => item.objectID !== id;
     const updatedList = this.state.list.filter(isNotId);
@@ -64,11 +57,20 @@ class App extends Component {
   }
   
   render () {
+    // get state in a simplier way
+    const { searchTerm, list } = this.state;
     return (
       <div className="App">
         <header className="App-header">
           <div>
-            { this.state.list.map(item =>
+            <form>
+              <input 
+                type="text" 
+                value={searchTerm}
+                onChange={this.onSearchChange}
+              />
+            </form>
+            { list.filter(isSearched(searchTerm)).map(item =>
             <div key={item.objectID}>
               <h2>
                 <a href={item.url}> {item.title} </a>
@@ -87,9 +89,6 @@ class App extends Component {
               <br /><br />
             </div>
             )}
-          </div>
-          <div>
-            <ExplainBindingsComponent />
           </div>
         </header>
       </div>
