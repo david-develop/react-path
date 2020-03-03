@@ -60,23 +60,20 @@ class App extends Component {
     // get state in a simplier way
     const { searchTerm, list } = this.state;
     return (
-      <div className="App">
-        <header className="App-header">
-          <div>
-            <Search
-              value={searchTerm}
-              onChange={this.onSearchChange}
-            >
-              Search
-            </Search>
-            <br />
-            <Table
-              list={list}
-              pattern={searchTerm}
-              onDismiss={this.onDismiss}
-            />
-          </div>
-        </header>
+      <div className="page">
+        <div className="interactions">
+          <Search
+            value={searchTerm}
+            onChange={this.onSearchChange}
+          >
+            Search
+          </Search>
+        </div>
+          <Table
+            list={list}
+            pattern={searchTerm}
+            onDismiss={this.onDismiss}
+          />
       </div>
     );
   }
@@ -92,20 +89,28 @@ const Search = ({ value, onChange, children }) =>
   </form>
 
 const Table = ({ list, pattern, onDismiss }) =>
-  <div>
+  <div className="table">
     {list.filter(isSearched(pattern)).map(item =>
-      <div key={item.objectID}>
-        <span>
+      <div key={item.objectID} className="table-row">
+        <span style={{ width: '40%' }}>
           <a href={item.url}>{item.title}</a>
         </span>
-        <span> Author: {item.author} </span>
-        <span> Comments: {item.num_comments} </span>
-        <span> Points: {item.points} </span>
-        <span>
-          <Button onClick={() => onDismiss(item.objectID)}>
+        <span style={{ width: '30%' }}>
+          {item.author}
+        </span>
+        <span style={{ width: '10%' }}>
+          {item.num_comments}
+        </span>
+        <span style={{ width: '10%' }}>
+          {item.points}
+        </span>
+        <span style={{ width: '10%' }}>
+          <Button
+            onClick={() => onDismiss(item.objectID)}
+            className="button-inline"
+          >
             Dismiss
           </Button>
-          <br /><br />
         </span>
       </div>
     )}
